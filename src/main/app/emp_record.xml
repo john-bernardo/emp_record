@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+    <flow name="emp_recordFlow1" doc:name="emp_recordFlow1">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8085" doc:name="New Employee Inbound" path="employee"/>
+        <choice doc:name="Choice">
+            <when expression="#[message.inboundProperties['http.method'] == 'GET']">
+                <vm:outbound-endpoint exchange-pattern="request-response" path="load_form" doc:name="Load Form"/>
+            </when>
+            <when expression="#[message.inboundProperties['http.method'] == 'POST']">
+                <vm:outbound-endpoint exchange-pattern="request-response" path="insert_router" doc:name="Process Insert"/>
+            </when>
+            <otherwise>
+                <set-payload value="Invalid Method" doc:name="Invalid Method"/>
+            </otherwise>
+        </choice>
+    </flow>
+</mule>
