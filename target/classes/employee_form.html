@@ -1,0 +1,231 @@
+<html>
+<head>
+<title>Employee Record Manager</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/json2/20130526/json2.min.js"></script>
+	<script type="text/javascript">
+	
+		function ajaxFunction() 
+		{
+		
+			var first_name = document.getElementById("first_name");
+			var last_name = document.getElementById("last_name");
+			var age = document.getElementById("age");
+			var gender = document.getElementById("gender");
+			
+			var job_id = document.getElementById("job_id");
+			
+			var home_address = document.getElementById("home_address");
+			var email_address = document.getElementById("email_address");
+			var mobile_phone_number = document.getElementById("mobile_phone_number");
+			
+			
+			var jsonObject = {
+				"first_name" : first_name.value,
+				"last_name" : last_name.value,
+				"age" : age.value,
+				"gender" : gender.options[gender.selectedIndex].value,
+				"job_id" : job_id.options[job_id.selectedIndex].value,
+				"home_address" : home_address.value,
+				"email_address" : email_address.value,
+				"mobile_phone_number" : mobile_phone_number.value
+			};
+
+			var formData = JSON.stringify(jsonObject);
+
+			var ajaxRequest; // The variable that makes Ajax possible!
+
+			try {
+				// Opera 8.0+, Firefox, Safari
+				ajaxRequest = new XMLHttpRequest();
+			} catch (e) {
+				// Internet Explorer Browsers
+				try {
+					ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+				} catch (e) {
+					try {
+						ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+					} catch (e) {
+						// Something went wrong
+						alert("Your browser broke!");
+						return false;
+					}
+				}
+			}
+		
+		
+			ajaxRequest.open("POST", "/employee", true);
+			ajaxRequest.setRequestHeader("Content-type", "application/json");
+			ajaxRequest.send(formData);
+		}
+	</script>
+	
+	
+<style>
+		@import url(@import url(http://fonts.googleapis.com/css?family=Ubuntu|Roboto:400,300););
+
+		body {
+			width: 100%;
+			background-color: #33CCFF;
+			font-weight: 300;
+			font-family: 'Roboto', sans-serif;
+		}
+
+		h1 {
+			font-size: 2.0em;
+			font-weight: 300;
+			font-style: normal;
+			margin-top: 0px;
+			color: #016C96;
+			font-family: 'ubuntu', sans-serif;
+		}
+
+
+		h2 {
+			font-size: 1.4em;
+			font-weight: 300;
+			font-style: normal;
+			margin-top: 0px;
+			margin-bottom: 0px;
+			padding: 0;
+			font-family: 'ubuntu', sans-serif;
+		}
+
+		select, option {
+			width: 170px;
+
+		}
+		
+		#container {
+			width: 500px;
+			margin: 0 auto;
+			padding: 10px;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			background-color: #eee;
+			border-color: #ccc;
+			border: 1px solid #ccc;
+			padding-bottom: 10px;
+		}
+		
+		.textbox {
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+			outline: 0;
+			height: 2.5em;
+			width: 300px;
+			font-size: .7em;
+			font-weight: 300;
+		}
+
+		.button {
+			background-color: #016C96;
+			width: 125px;
+			height: 2.5em;
+			border: 1px solid #eee;
+			font-weight: 300;
+			font-family: 'Roboto', sans-serif;
+			font-size: .8em;
+			color: #fff;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			margin-top: 20px;
+		}
+
+		button:active {
+			background-color: #777;
+			color: #fff;
+			border: none;
+		}
+
+		form {
+			margin: 0;
+		}
+		
+		.success {
+			border: 2px solid #009400;
+			background: #B3FFB3;
+			color: #555;
+			font-weight: bold;
+		}
+	
+		.error {
+			border: 2px solid #DE001A;
+			background: #FFA8B3;
+			color: #000;
+			font-weight: bold;
+		}
+</style>
+	
+</head>
+<body>
+	<div id="container">
+		<form id="myForm" name="myForm" style="margin: 0 auto; width: 500px;">
+			<table>
+				<tr>
+					<td><b>Employee Details</b></td>
+				</tr>
+				<tr>
+					<td><a>First Name: </a></td>
+					<td><input id="first_name" type="text"/></td>
+				</tr>
+				<tr>
+					<td><a>Last Name: </a></td>
+					<td><input id="last_name" type="text"/></td>
+				</tr>
+				<tr>
+					<td><a>Age: </a></td>
+					<td><input id="age" type="text"/></td>
+				</tr>
+				<tr>
+					<td><a>Gender: </a></td>
+					<td><select id="gender">
+							<option value="null">--GENDER--</opiton>
+							<option value="Male">Male</option>
+							<option value="Female">Female</option>
+					
+					</select></td>
+				</tr>
+
+				<tr>
+					<td><b>Job Designation</b></td>
+				</tr>
+				<tr>
+					<td><a>Title: </a></td>
+					<td><select id="job_id">
+							<option value="null">--TITLE--</opiton>
+							<option value="1">Country Manager</option>
+							<option value="2">Lead Software Engineer</option>
+							<option value="3">Software Engineer</option>
+							<option value="4">DevOps Engineer</option>
+							<option value="5">Systems Integrator</option>
+					</select></td>
+				</tr>
+
+				<tr>
+					<td><b>Contact Details</b></td>
+				</tr>
+				<tr>
+					<td><a>Home Address: </a></td>
+					<td><input id="home_address" type="text"/></td>
+				</tr>
+				<tr>
+					<td><a>Email Address: </a></td>
+					<td><input id="email_address" type="email"/></td>
+				</tr>
+				<tr>
+					<td><a>Mobile Phone Number: </a></td>
+					<td><input id="mobile_phone_number" type="text"/></td>
+				</tr>
+				<tr>
+					<td><input class="button" name="submit" type="button" value="Submit" onClick="return ajaxFunction();"><td>
+				</tr>
+				
+			</table>
+		</form>
+	</div>
+</body>
+</html>

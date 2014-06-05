@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="vm_load_form">
+    <flow SubFlow="false" name="vm_load_formFlow1" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="7abe3c1b-9260-4f28-87a6-49d297a04162">
+        <properties/>
+        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="27eb4054-c979-4d43-9483-8cac88a174a1">
+            <graphicalData x="0" y="0" width="0" height="0"/>
+            <endpoint direction="Inbound" name="Load Form" type="http://www.mulesoft.org/schema/mule/vm/endpoint" entity-id="fa1561a5-f03b-4072-b531-23f3a14f2218">
+                <graphicalData x="21" y="46" width="71" height="169"/>
+                <properties>
+                    <property name="auxiliary;erased;mimeType" value="true"/>
+                    <property name="businessEventsLabel" value=""/>
+                    <property name="disableTransportTransformer" value="false"/>
+                    <property name="tracking:enable-default-events" value="false"/>
+                    <property name="exchange-pattern" value="request-response"/>
+                    <property name="ref" value=""/>
+                    <property name="transformer-refs" value=""/>
+                    <property name="updated"/>
+                    <property name="address" value=""/>
+                    <property name="auxiliary;erased;encoding" value="true"/>
+                    <property name="path" value="load_form"/>
+                    <property name="encoding" value=""/>
+                    <property name="responseTransformer-refs" value=""/>
+                    <property name="mimeType" value=""/>
+                    <property name="responseTimeout" value=""/>
+                    <property name="auxiliary;erased;responseTimeout" value="true"/>
+                    <property name="connector-ref" value=""/>
+                </properties>
+                <description></description>
+            </endpoint>
+            <pattern name="Load HTML form" type="http://www.mulesoft.org/schema/mule/core/parse-template" entity-id="995c0f18-6e61-4043-9c82-b62c0610c0d2">
+                <graphicalData x="152" y="46" width="103" height="67"/>
+                <properties>
+                    <property name="location" value="employee_form.html"/>
+                    <property name="updated"/>
+                </properties>
+                <description></description>
+            </pattern>
+            <pattern name="Set Content Type" type="http://www.mulesoft.org/schema/mule/core/properties-transformer" entity-id="93a91212-835a-47db-abcf-21d5456d54be">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <properties>
+                    <property name="propertyName" value="Content-Type"/>
+                    <property name="updated"/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/core/set-property"/>
+                    <property name="value" value="text/html"/>
+                </properties>
+                <description></description>
+            </pattern>
+        </lane>
+    </flow>
+    <description></description>
+</mule-configuration>

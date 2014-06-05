@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="vm_insert_employee">
+    <global-element name="MySQL Configuration" type="http://www.mulesoft.org/schema/mule/db/mysql-config" entity-id="!!!439fe5e4-255e-4141-bac2-a90a5a47921a">
+        <properties>
+            <property name="port" value="3306"/>
+            <property name="host" value="128.199.214.77"/>
+            <property name="auxiliary;metauseMetaData" value="true"/>
+            <property name="driverClassName" value=""/>
+            <property name="transactionIsolation" value="NONE"/>
+            <property name="password" value="W$lph@123"/>
+            <property name="database" value="employees"/>
+            <property name="connectionTimeout" value=""/>
+            <property name="springBeanConf" value="false"/>
+            <property name="databaseParametersConf" value="true"/>
+            <property name="name" value="MySQL-A"/>
+            <property name="auxiliary;erased;connectionTimeout" value="true"/>
+            <property name="useXaTransactions" value="false"/>
+            <property name="databaseURLConf" value="false"/>
+            <property name="user" value="wsladmin"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/db/pooling-profile;1062356080">
+                <property name="maxWaitMillis" value=""/>
+                <property name="maxPoolSize" value=""/>
+                <property name="minPoolSize" value=""/>
+                <property name="preparedStatementCacheSize" value=""/>
+                <property name="acquireIncrement" value=""/>
+                <property name="isProcessed$$$$ " value="true"/>
+            </property-collection>
+        </properties>
+        <description></description>
+    </global-element>
+    <global-element name="MySQL Configuration" type="http://www.mulesoft.org/schema/mule/db/mysql-config" entity-id="!!!d19ad914-865b-430d-99da-6625fbf2650d">
+        <properties>
+            <property name="port" value="3306"/>
+            <property name="host" value="128.199.245.78"/>
+            <property name="auxiliary;metauseMetaData" value="true"/>
+            <property name="driverClassName" value=""/>
+            <property name="transactionIsolation" value="NONE"/>
+            <property name="password" value="W$lph@123"/>
+            <property name="database" value="employee_details"/>
+            <property name="connectionTimeout" value=""/>
+            <property name="springBeanConf" value="false"/>
+            <property name="databaseParametersConf" value="true"/>
+            <property name="name" value="MySQL-B"/>
+            <property name="auxiliary;erased;connectionTimeout" value="true"/>
+            <property name="useXaTransactions" value="false"/>
+            <property name="databaseURLConf" value="false"/>
+            <property name="user" value="wsladmin"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/db/pooling-profile;1218881842">
+                <property name="maxWaitMillis" value=""/>
+                <property name="maxPoolSize" value=""/>
+                <property name="minPoolSize" value=""/>
+                <property name="preparedStatementCacheSize" value=""/>
+                <property name="acquireIncrement" value=""/>
+                <property name="isProcessed$$$$ " value="true"/>
+            </property-collection>
+        </properties>
+        <description></description>
+    </global-element>
+    <flow SubFlow="false" name="vm_insert_employeeFlow1" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="d2723f23-ea84-49b6-b169-4bf9b4e2198d">
+        <properties>
+            <property name="initialState" value=""/>
+            <property name="auxiliary;erased;initialState" value="true"/>
+            <property name="bussinessEventsLabel" value=""/>
+            <property name="tracking:enable-default-events" value="false"/>
+            <property name="updated"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/ee/tracking/transaction;1404806865"/>
+        </properties>
+        <description></description>
+        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="5dafff1f-776b-41a3-b502-89cb074cde13">
+            <graphicalData x="0" y="0" width="0" height="0"/>
+            <endpoint direction="Inbound" name="VM Insert Employee" type="http://www.mulesoft.org/schema/mule/vm/endpoint" entity-id="fc7b4abc-33bb-48e4-91e1-df2c6a371b28">
+                <graphicalData x="21" y="29" width="69" height="182"/>
+                <properties>
+                    <property name="auxiliary;erased;mimeType" value="true"/>
+                    <property name="businessEventsLabel" value=""/>
+                    <property name="disableTransportTransformer" value="false"/>
+                    <property name="tracking:enable-default-events" value="false"/>
+                    <property name="exchange-pattern" value="request-response"/>
+                    <property name="ref" value=""/>
+                    <property name="transformer-refs" value=""/>
+                    <property name="updated"/>
+                    <property name="address" value=""/>
+                    <property name="auxiliary;erased;encoding" value="true"/>
+                    <property name="path" value="insert_employee"/>
+                    <property name="encoding" value=""/>
+                    <property name="responseTransformer-refs" value=""/>
+                    <property name="mimeType" value=""/>
+                    <property name="responseTimeout" value=""/>
+                    <property name="auxiliary;erased;responseTimeout" value="true"/>
+                    <property name="connector-ref" value=""/>
+                </properties>
+                <description></description>
+            </endpoint>
+            <pattern name="Store Contact Info" type="http://www.mulesoft.org/schema/mule/core/message-properties-transformer" entity-id="cf9794d8-b3f7-49c4-b2ef-58306d22d3c3">
+                <graphicalData x="150" y="29" width="87" height="80"/>
+                <properties>
+                    <property name="auxiliary;erased;mimeType" value="true"/>
+                    <property name="returnClass" value=""/>
+                    <property name="ignoreBadInput" value="false"/>
+                    <property name="scope" value="session"/>
+                    <property name="updated"/>
+                    <property name="auxiliary;erased;encoding" value="true"/>
+                    <property name="overwrite" value="false"/>
+                    <property name="encoding" value=""/>
+                    <property name="mimeType" value=""/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/core/add-message-property;1">
+                        <property name="value" value="#[json:home_address]"/>
+                        <property name="key" value="home_address"/>
+                    </property-collection>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/core/add-message-property;2">
+                        <property name="value" value="#[json:email_address]"/>
+                        <property name="key" value="email_address"/>
+                    </property-collection>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/core/add-message-property;3">
+                        <property name="value" value="#[json:mobile_phone_number]"/>
+                        <property name="key" value="mobile_phone_number"/>
+                    </property-collection>
+                </properties>
+                <description></description>
+            </pattern>
+            <pattern name="Insert Employee" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="8aa19711-0932-4b58-9e7e-bdb1ff6969f6">
+                <graphicalData x="297" y="36" width="99" height="67"/>
+                <properties>
+                    <property name="source" value=""/>
+                    <property name="updated"/>
+                    <property name="autoGeneratedKeysColumnNames" value="emp_id"/>
+                    <property name="transactionalAction" value="JOIN_IF_POSSIBLE"/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/insert"/>
+                    <property name="target" value=""/>
+                    <property name="autoGeneratedKeysColumnIndexes" value="1"/>
+                    <property name="config-ref" value="MySQL-A"/>
+                    <property name="autoGeneratedKeys" value="true"/>
+                    <property name="auxiliary;metametadataStrategy" value="new-database-dynamic-statement-metadata-strategy"/>
+                    <property name="bulkMode" value="false"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/db/dynamic-query;0">
+                        <property name="text" value="INSERT INTO employees (first_name,last_name,age,gender,job_id) VALUES ('#[json:first_name]','#[json:last_name]','#[json:age]','#[json:gender]','#[json:job_id]');"/>
+                    </property-collection>
+                </properties>
+                <description></description>
+            </pattern>
+            <pattern name="Get Return ID Payload" type="http://www.mulesoft.org/schema/mule/core/set-payload" entity-id="5aa19b3c-51b2-4795-b4eb-10ef61f743aa">
+                <graphicalData x="456" y="29" width="86" height="80"/>
+                <properties>
+                    <property name="updated"/>
+                    <property name="value" value="#[message.payload[0]]"/>
+                </properties>
+                <description></description>
+            </pattern>
+            <pattern name="Object to JSON" type="http://www.mulesoft.org/schema/mule/json/object-to-json-transformer" entity-id="710d8363-b68f-4320-89f1-323125e8cf89">
+                <graphicalData x="602" y="36" width="93" height="67"/>
+                <properties/>
+                <description></description>
+            </pattern>
+            <pattern name="SET INSERT QUERY" type="http://www.mulesoft.org/schema/mule/core/set-payload" entity-id="361a4bf9-da1c-4665-bf16-edab1c59af18">
+                <graphicalData x="755" y="36" width="113" height="67"/>
+                <properties>
+                    <property name="updated"/>
+                    <property name="value" value="INSERT INTO contacts (emp_id,home_address,email_address,mobile_phone_number) VALUES('#[json:GENERATED_KEY]','#[sessionVars['home_address']]','#[sessionVars['email_address']]','#[sessionVars['mobile_phone_number']]')"/>
+                </properties>
+                <description></description>
+            </pattern>
+            <pattern name="Logger" type="http://www.mulesoft.org/schema/mule/core/logger" entity-id="187777a9-19a1-4041-a28b-bda086f183d8">
+                <graphicalData x="928" y="36" width="68" height="67"/>
+                <properties>
+                    <property name="message" value="#[message.payload]"/>
+                    <property name="category" value=""/>
+                    <property name="level" value="INFO"/>
+                    <property name="updated"/>
+                </properties>
+                <description></description>
+            </pattern>
+            <pattern name="Insert Contact Details" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="1148a64e-3330-4986-a5b3-0e6c09c03389">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <properties>
+                    <property name="source" value=""/>
+                    <property name="updated"/>
+                    <property name="transactionalAction" value="JOIN_IF_POSSIBLE"/>
+                    <property name="target" value=""/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/insert"/>
+                    <property name="config-ref" value="MySQL-B"/>
+                    <property name="autoGeneratedKeys" value="false"/>
+                    <property name="bulkMode" value="false"/>
+                    <property name="auxiliary;metametadataStrategy" value="new-database-dynamic-statement-metadata-strategy"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/db/dynamic-query;0">
+                        <property name="text" value="#[payload];"/>
+                    </property-collection>
+                </properties>
+                <description></description>
+            </pattern>
+        </lane>
+    </flow>
+    <description></description>
+</mule-configuration>

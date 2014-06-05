@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="emp_record">
+    <flow SubFlow="false" name="emp_recordFlow1" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="76c14359-7324-4331-9a1b-2a6531093d1b">
+        <properties>
+            <property name="initialState"/>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property name="auxiliary;index" value="1"/>
+        </properties>
+        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#1">
+            <graphicalData x="0" y="0" width="0" height="0"/>
+            <endpoint direction="Inbound" name="New Employee Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#1">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <properties>
+                    <property name="auxiliary;erased;contentType" value="true"/>
+                    <property name="auxiliary;erased;mimeType" value="true"/>
+                    <property name="port" value="8085"/>
+                    <property name="host" value="localhost"/>
+                    <property name="businessEventsLabel" value=""/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/http/endpoint"/>
+                    <property name="keepAlive" value="false"/>
+                    <property name="contentType" value=""/>
+                    <property name="disableTransportTransformer" value="false"/>
+                    <property name="password" value=""/>
+                    <property name="tracking:enable-default-events" value="false"/>
+                    <property name="exchange-pattern" value="request-response"/>
+                    <property name="ref" value=""/>
+                    <property name="transformer-refs" value=""/>
+                    <property name="httpLabel" value=""/>
+                    <property name="address" value=""/>
+                    <property name="updated"/>
+                    <property name="auxiliary;erased;encoding" value="true"/>
+                    <property name="path" value="employee"/>
+                    <property name="encoding" value=""/>
+                    <property name="responseTransformer-refs" value=""/>
+                    <property name="user" value=""/>
+                    <property name="mimeType" value=""/>
+                    <property name="responseTimeout" value="10000"/>
+                    <property name="auxiliary;index" value="2"/>
+                    <property name="connector-ref" value=""/>
+                </properties>
+                <description></description>
+            </endpoint>
+            <splitter index="0" name="Choice" type="org.mule.tooling.ui.modules.core.pattern.cbr" entity-id="6730dd73-baee-4ed1-94ee-771fef193767">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <properties>
+                    <property name="updated"/>
+                    <property name=";INDEX" value="0"/>
+                    <property name="tracking:enable-default-events" value="false"/>
+                    <property-collection name="7eef6cff-220a-4d46-b8c3-96af2dce97ff">
+                        <property name="choice.expression" value="#[message.inboundProperties['http.method'] == 'GET']"/>
+                    </property-collection>
+                    <property-collection name="6ab069d3-2b26-4ade-96e0-a43e3de84e5b">
+                        <property name="choice.otherwise" value="true"/>
+                        <property name="choice.expression" value=""/>
+                    </property-collection>
+                    <property-collection name="14027c86-e6fe-4002-9e5a-038cc4daa1c9">
+                        <property name="choice.expression" value="#[message.inboundProperties['http.method'] == 'POST']"/>
+                    </property-collection>
+                </properties>
+                <description></description>
+                <pattern name="Choice" type="org.mule.tooling.ui.modules.core.pattern.cbr" entity-id="d7f20a6e-8d42-44d2-906f-e70c125949d9">
+                    <properties>
+                        <property name="updated"/>
+                        <property name=";INDEX" value="0"/>
+                        <property name="tracking:enable-default-events" value="false"/>
+                        <property-collection name="7eef6cff-220a-4d46-b8c3-96af2dce97ff">
+                            <property name="choice.expression" value="#[message.inboundProperties['http.method'] == 'GET']"/>
+                        </property-collection>
+                        <property-collection name="6ab069d3-2b26-4ade-96e0-a43e3de84e5b">
+                            <property name="choice.otherwise" value="true"/>
+                            <property name="choice.expression" value=""/>
+                        </property-collection>
+                        <property-collection name="14027c86-e6fe-4002-9e5a-038cc4daa1c9">
+                            <property name="choice.expression" value="#[message.inboundProperties['http.method'] == 'POST']"/>
+                        </property-collection>
+                    </properties>
+                    <description></description>
+                </pattern>
+                <compartment entity-id="aeef34ad-707f-4adf-9e0b-f7458159a7d8">
+                    <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="7eef6cff-220a-4d46-b8c3-96af2dce97ff">
+                        <endpoint direction="Outbound" name="Load Form" type="http://www.mulesoft.org/schema/mule/vm/endpoint" entity-id="65d95328-c4f9-4a37-960f-a5384552a8c4">
+                            <graphicalData x="0" y="0" width="0" height="0"/>
+                            <properties>
+<property name="auxiliary;erased;mimeType" value="true"/>
+<property name="businessEventsLabel" value=""/>
+<property name="disableTransportTransformer" value="false"/>
+<property name="tracking:enable-default-events" value="false"/>
+<property name="exchange-pattern" value="request-response"/>
+<property name="ref" value=""/>
+<property name="transformer-refs" value=""/>
+<property name="updated"/>
+<property name="address" value=""/>
+<property name="auxiliary;erased;encoding" value="true"/>
+<property name="path" value="load_form"/>
+<property name="encoding" value=""/>
+<property name="responseTransformer-refs" value=""/>
+<property name="mimeType" value=""/>
+<property name="responseTimeout" value=""/>
+<property name="auxiliary;erased;responseTimeout" value="true"/>
+<property name="connector-ref" value=""/>
+                            </properties>
+                            <description></description>
+                        </endpoint>
+                    </lane>
+                    <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="true" entity-id="6ab069d3-2b26-4ade-96e0-a43e3de84e5b">
+                        <pattern name="Invalid Method" type="http://www.mulesoft.org/schema/mule/core/set-payload" entity-id="cdf6185e-e2bf-4d0d-af0d-78d2e4215744">
+                            <graphicalData x="0" y="0" width="0" height="0"/>
+                            <properties>
+<property name="updated"/>
+<property name="value" value="Invalid Method"/>
+                            </properties>
+                            <description></description>
+                        </pattern>
+                    </lane>
+                    <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="14027c86-e6fe-4002-9e5a-038cc4daa1c9">
+                        <endpoint direction="Outbound" name="Process Insert" type="http://www.mulesoft.org/schema/mule/vm/endpoint" entity-id="69c74b06-25d5-4bbe-8d4a-8a9e8a2ad912">
+                            <graphicalData x="0" y="0" width="0" height="0"/>
+                            <properties>
+<property name="auxiliary;erased;mimeType" value="true"/>
+<property name="businessEventsLabel" value=""/>
+<property name="disableTransportTransformer" value="false"/>
+<property name="tracking:enable-default-events" value="false"/>
+<property name="exchange-pattern" value="request-response"/>
+<property name="ref" value=""/>
+<property name="transformer-refs" value=""/>
+<property name="updated"/>
+<property name="address" value=""/>
+<property name="auxiliary;erased;encoding" value="true"/>
+<property name="path" value="insert_employee"/>
+<property name="encoding" value=""/>
+<property name="responseTransformer-refs" value=""/>
+<property name="mimeType" value=""/>
+<property name="responseTimeout" value=""/>
+<property name="auxiliary;erased;responseTimeout" value="true"/>
+<property name="connector-ref" value=""/>
+                            </properties>
+                            <description></description>
+                        </endpoint>
+                    </lane>
+                </compartment>
+            </splitter>
+        </lane>
+    </flow>
+</mule-configuration>
