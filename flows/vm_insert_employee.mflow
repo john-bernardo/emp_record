@@ -13,9 +13,9 @@
             <property name="url"/>
             <property name="connectionTimeout"/>
             <property name="dataSource-ref"/>
-            <property name="name" value="MySQL-A"/>
-            <property name="databaseParametersConf"/>
             <property name="springBeanConf"/>
+            <property name="databaseParametersConf"/>
+            <property name="name" value="MySQL-A"/>
             <property name="useXaTransactions"/>
             <property name="databaseURLConf"/>
             <property name="user" value="wsladmin"/>
@@ -35,9 +35,9 @@
             <property name="url"/>
             <property name="connectionTimeout"/>
             <property name="dataSource-ref"/>
-            <property name="name" value="MySQL-B"/>
-            <property name="databaseParametersConf"/>
             <property name="springBeanConf"/>
+            <property name="databaseParametersConf"/>
+            <property name="name" value="MySQL-B"/>
             <property name="useXaTransactions"/>
             <property name="databaseURLConf"/>
             <property name="user" value="wsladmin"/>
@@ -52,9 +52,9 @@
             <property name="tracking:enable-default-events" value="false"/>
             <property name="auxiliary;index" value="3"/>
             <property name="updated"/>
-            <property-collection name="@http://www.mulesoft.org/schema/mule/ee/tracking/transaction;1889796430"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/ee/tracking/transaction;1770487221"/>
         </properties>
-        <description></description>
+        <description>This flow contains the process of inserting employee details and contact information of the employee to 2 separate databases</description>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#1">
             <graphicalData x="0" y="0" width="0" height="0"/>
             <endpoint direction="Inbound" name="VM Insert Employee" type="http://www.mulesoft.org/schema/mule/vm/endpoint" entity-id="VM#1">
@@ -73,10 +73,10 @@
                     <property name="path" value="insert_employee"/>
                     <property name="encoding" value=""/>
                     <property name="responseTransformer-refs" value=""/>
-                    <property name="auxiliary;index" value="4"/>
-                    <property name="mimeType" value=""/>
-                    <property name="responseTimeout" value=""/>
                     <property name="auxiliary;erased;responseTimeout" value="true"/>
+                    <property name="responseTimeout" value=""/>
+                    <property name="mimeType" value=""/>
+                    <property name="auxiliary;index" value="4"/>
                     <property name="connector-ref" value="VM"/>
                 </properties>
                 <description>VM Inbound from emp_record.mflow</description>
@@ -89,25 +89,25 @@
                     <property name="scope" value="session"/>
                     <property name="overwrite"/>
                     <property name="encoding"/>
-                    <property name="auxiliary;index" value="5"/>
                     <property name="mimeType"/>
+                    <property name="auxiliary;index" value="5"/>
                     <property-collection name="@http://www.mulesoft.org/schema/mule/core/add-message-property;0">
                         <property name="value" value="#[json:home_address]"/>
-                        <property name="key" value="home_address"/>
-                        <property name="auxiliary;index" value="6"/>
                         <property name="auxiliary;wrapIn" value="6"/>
+                        <property name="auxiliary;index" value="6"/>
+                        <property name="key" value="home_address"/>
                     </property-collection>
                     <property-collection name="@http://www.mulesoft.org/schema/mule/core/add-message-property;1">
                         <property name="value" value="#[json:email_address]"/>
-                        <property name="key" value="email_address"/>
-                        <property name="auxiliary;index" value="7"/>
                         <property name="auxiliary;wrapIn" value="7"/>
+                        <property name="auxiliary;index" value="7"/>
+                        <property name="key" value="email_address"/>
                     </property-collection>
                     <property-collection name="@http://www.mulesoft.org/schema/mule/core/add-message-property;2">
                         <property name="value" value="#[json:mobile_phone_number]"/>
-                        <property name="key" value="mobile_phone_number"/>
-                        <property name="auxiliary;index" value="8"/>
                         <property name="auxiliary;wrapIn" value="8"/>
+                        <property name="auxiliary;index" value="8"/>
+                        <property name="key" value="mobile_phone_number"/>
                     </property-collection>
                 </properties>
                 <description>Store contact information for insert contact input data after insert employee</description>
@@ -119,17 +119,17 @@
                     <property name="source"/>
                     <property name="autoGeneratedKeysColumnNames" value="emp_id"/>
                     <property name="transactionalAction"/>
-                    <property name="target"/>
                     <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/insert"/>
+                    <property name="target"/>
                     <property name="autoGeneratedKeysColumnIndexes" value="1"/>
                     <property name="config-ref" value="MySQL-A"/>
-                    <property name="auxiliary;index" value="9"/>
                     <property name="autoGeneratedKeys" value="true"/>
+                    <property name="auxiliary;index" value="9"/>
                     <property name="bulkMode"/>
                     <property-collection name="@http://www.mulesoft.org/schema/mule/db/dynamic-query;0">
                         <property name="text" value="INSERT INTO employees (first_name,last_name,age,gender,job_id) VALUES ('#[json:first_name]','#[json:last_name]','#[json:age]','#[json:gender]','#[json:job_id]');"/>
-                        <property name="auxiliary;index" value="10"/>
                         <property name="auxiliary;wrapIn" value="10"/>
+                        <property name="auxiliary;index" value="10"/>
                     </property-collection>
                 </properties>
                 <description>Insert employee details into employees database table employees with input data first name, last name, age, and gender. After insert the component will return the emp_id of the insert data</description>
@@ -150,8 +150,8 @@
                     <property name="ignoreBadInput"/>
                     <property name="encoding"/>
                     <property name="mapper-ref"/>
-                    <property name="auxiliary;index" value="12"/>
                     <property name="mimeType"/>
+                    <property name="auxiliary;index" value="12"/>
                 </properties>
                 <description>convert the mapped payload to json string for extraction</description>
             </pattern>
@@ -180,17 +180,17 @@
                     <property name="source"/>
                     <property name="autoGeneratedKeysColumnNames"/>
                     <property name="transactionalAction"/>
-                    <property name="target"/>
                     <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/insert"/>
+                    <property name="target"/>
                     <property name="autoGeneratedKeysColumnIndexes"/>
                     <property name="config-ref" value="MySQL-B"/>
-                    <property name="auxiliary;index" value="15"/>
                     <property name="autoGeneratedKeys"/>
+                    <property name="auxiliary;index" value="15"/>
                     <property name="bulkMode"/>
                     <property-collection name="@http://www.mulesoft.org/schema/mule/db/dynamic-query;0">
                         <property name="text" value="#[payload];"/>
-                        <property name="auxiliary;index" value="16"/>
                         <property name="auxiliary;wrapIn" value="16"/>
+                        <property name="auxiliary;index" value="16"/>
                     </property-collection>
                 </properties>
                 <description>Insert contact information in the employee_details database and into the contacts table, insert data are emp_id from previous insert, home address, email address, mobile phone number.</description>
