@@ -5,8 +5,8 @@
             <property name="dispatcherPoolFactory-ref" value=""/>
             <property name="name" value="VM"/>
             <property name="validateConnections" value="true"/>
-            <property name="dynamicNotification" value="false"/>
             <property name="queueTimeout" value="10000"/>
+            <property name="dynamicNotification" value="false"/>
             <property-collection name="@http://www.mulesoft.org/schema/mule/vm/queue-profile;929551408">
                 <property name="maxOutstandingMessages" value="0"/>
                 <property name="isProcessed$$$$ " value="true"/>
@@ -22,7 +22,7 @@
             <property name="tracking:enable-default-events" value="false"/>
             <property name="auxiliary;index" value="1"/>
             <property name="updated"/>
-            <property-collection name="@http://www.mulesoft.org/schema/mule/ee/tracking/transaction;355596472"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/ee/tracking/transaction;2130942873"/>
         </properties>
         <description>This is the start of the New Employee process, this flow routes the POST and GET http request from the browser.</description>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#1">
@@ -42,17 +42,17 @@
                     <property name="exchange-pattern" value="request-response"/>
                     <property name="tracking:enable-default-events"/>
                     <property name="ref"/>
-                    <property name="httpLabel"/>
                     <property name="transformer-refs"/>
+                    <property name="httpLabel"/>
                     <property name="address"/>
-                    <property name="encoding"/>
                     <property name="path" value="employee"/>
+                    <property name="encoding"/>
                     <property name="responseTransformer-refs"/>
                     <property name="method"/>
                     <property name="user"/>
-                    <property name="mimeType"/>
-                    <property name="responseTimeout"/>
                     <property name="auxiliary;index" value="2"/>
+                    <property name="responseTimeout"/>
+                    <property name="mimeType"/>
                     <property name="connector-ref"/>
                 </properties>
             </endpoint>
@@ -118,10 +118,10 @@
 <property name="path" value="load_form"/>
 <property name="encoding" value=""/>
 <property name="responseTransformer-refs" value=""/>
-<property name="auxiliary;index" value="5"/>
-<property name="mimeType" value=""/>
-<property name="responseTimeout" value=""/>
 <property name="auxiliary;erased;responseTimeout" value="true"/>
+<property name="responseTimeout" value=""/>
+<property name="mimeType" value=""/>
+<property name="auxiliary;index" value="5"/>
 <property name="connector-ref" value="VM"/>
                             </properties>
                             <description>This connects the vm_load_form.mflow which contains flow for parsing the html form</description>
@@ -141,9 +141,9 @@
 <property name="path" value="insert_employee"/>
 <property name="encoding"/>
 <property name="responseTransformer-refs"/>
-<property name="auxiliary;index" value="7"/>
 <property name="responseTimeout"/>
 <property name="mimeType"/>
+<property name="auxiliary;index" value="7"/>
 <property name="connector-ref" value="VM"/>
                             </properties>
                             <description>This connects the emp_record.mflow to vm_insert_employee.mflow for processing and inserting the form data to the database</description>

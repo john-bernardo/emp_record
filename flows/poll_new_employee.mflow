@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="poll_new_employee">
+    <global-element name="Map_To_JSON" type="http://www.mulesoft.org/schema/mule/ee/data-mapper/config" entity-id="DataMapper#1">
+        <properties>
+            <property name="name" value="Map_To_JSON"/>
+            <property name="auxiliary;index" value="1"/>
+            <property name="transformationGraphPath" value="map_to_json.grf"/>
+        </properties>
+    </global-element>
+    <flow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="container" SubFlow="false" type="http://www.mulesoft.org/schema/mule/batch/job" entity-id="Batch#1">
+        <properties>
+            <property name="max-failed-records" value="0"/>
+            <property name="scheduling-strategy" value="ORDERED_SEQUENTIAL"/>
+            <property name="name" value="poll_new_employeeBatch1"/>
+            <property name="auxiliary;index" value="2"/>
+            <property name="updated"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/batch/threading-profile;796545700">
+                <property name="maxBufferSize" value=""/>
+                <property name="auxiliary;erased;threadWaitTimeout" value="true"/>
+                <property name="poolExhaustedAction" value="WAIT"/>
+                <property name="auxiliary;erased;maxThreadsActive" value="true"/>
+                <property name="threadWaitTimeout" value=""/>
+                <property name="auxiliary;erased;maxBufferSize" value="true"/>
+                <property name="doThreading" value="true"/>
+                <property name="auxiliary;erased;threadTTL" value="true"/>
+                <property name="maxThreadsIdle" value=""/>
+                <property name="maxThreadsActive" value=""/>
+                <property name="threadTTL" value=""/>
+                <property name="auxiliary;erased;maxThreadsIdle" value="true"/>
+            </property-collection>
+        </properties>
+        <description></description>
+        <lane xsi:type="nestedContainer" name="Input" type="http://www.mulesoft.org/schema/mule/batch/input" hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="db95848f-3f67-4eab-bf0e-139db8c2ff6a">
+            <scope name="Poll" type="org.mule.tooling.ui.modules.core.endpoint.Poller" entity-id="Poll#1">
+                <properties>
+                    <property name="cron-scheduler"/>
+                    <property name="frequency"/>
+                    <property name="fixed-frequency-scheduler"/>
+                    <property name="auxiliary;index" value="4"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/core/fixed-frequency-scheduler;0">
+                        <property name="timeUnit" value="SECONDS"/>
+                        <property name="frequency" value="60"/>
+                        <property name="auxiliary;index" value="5"/>
+                        <property name="auxiliary;wrapIn" value="5"/>
+                    </property-collection>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/core/watermark;0">
+                        <property name="default-expression" value="0"/>
+                        <property name="selector" value="LAST"/>
+                        <property name="selector-expression" value="#[payload.emp_id]"/>
+                        <property name="variable" value="last_emp_id"/>
+                        <property name="auxiliary;index" value="6"/>
+                        <property name="auxiliary;wrapIn" value="6"/>
+                    </property-collection>
+                </properties>
+                <description></description>
+                <compartment entity-id="compartment#1">
+                    <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#1">
+                        <pattern name="Get new employees" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#1">
+                            <graphicalData x="0" y="0" width="0" height="0"/>
+                            <properties>
+<property name="streaming"/>
+<property name=""/>
+<property name="fetchSize"/>
+<property name="source"/>
+<property name="transactionalAction"/>
+<property name="target"/>
+<property name="maxRows"/>
+<property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/select"/>
+<property name="config-ref" value="MySQL-A"/>
+<property name="auxiliary;index" value="7"/>
+<property-collection name="@http://www.mulesoft.org/schema/mule/db/parameterized-query;0">
+    <property name="text" value="SELECT * FROM employees WHERE emp_id &gt; #[flowVars[&quot;last_emp_id&quot;]];"/>
+    <property name="auxiliary;index" value="8"/>
+    <property name="auxiliary;wrapIn" value="8"/>
+</property-collection>
+                            </properties>
+                            <description></description>
+                        </pattern>
+                    </lane>
+                </compartment>
+            </scope>
+            <properties>
+                <property name="auxiliary;index" value="3"/>
+            </properties>
+        </lane>
+        <lane xsi:type="nestedContainer" name="Process Records" type="http://www.mulesoft.org/schema/mule/batch/process-records" hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="804773d1-ed8b-4155-bfc4-ec27d629690b">
+            <scope type="http://www.mulesoft.org/schema/mule/batch/step" entity-id="Batch Step#1">
+                <properties>
+                    <property name="filter-expression"/>
+                    <property name="name" value="Batch_Step"/>
+                    <property name="accept-expression"/>
+                    <property name="accept-policy"/>
+                    <property name="auxiliary;index" value="10"/>
+                </properties>
+                <compartment entity-id="compartment#2">
+                    <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#2">
+                        <pattern name="Map To JSON" type="http://www.mulesoft.org/schema/mule/ee/data-mapper/data-mapper-connector" entity-id="DataMapper#2">
+                            <graphicalData x="163" y="276" width="84" height="67"/>
+                            <properties>
+<property name="returnClass"/>
+<property name="stream"/>
+<property name="input-ref"/>
+<property name="target"/>
+<property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/ee/data-mapper/transform"/>
+<property name="pipeSize"/>
+<property name="config-ref" value="Map_To_JSON"/>
+<property name="auxiliary;index" value="11"/>
+                            </properties>
+                        </pattern>
+                        <pattern name="Object to String" type="http://www.mulesoft.org/schema/mule/core/object-to-string-transformer" entity-id="Object to String#1">
+                            <graphicalData x="307" y="276" width="98" height="67"/>
+                            <properties>
+<property name="returnClass"/>
+<property name="ignoreBadInput"/>
+<property name="encoding"/>
+<property name="auxiliary;index" value="12"/>
+<property name="mimeType"/>
+                            </properties>
+                        </pattern>
+                        <pattern name="Set Employee information" type="http://www.mulesoft.org/schema/mule/core/message-properties-transformer" entity-id="Message Properties#1">
+                            <graphicalData x="593" y="269" width="85" height="80"/>
+                            <properties>
+<property name="returnClass"/>
+<property name="ignoreBadInput"/>
+<property name="scope" value="session"/>
+<property name="overwrite" value="true"/>
+<property name="encoding"/>
+<property name="auxiliary;index" value="13"/>
+<property name="mimeType"/>
+<property-collection name="@http://www.mulesoft.org/schema/mule/core/add-message-property;0">
+    <property name="value" value="#[message.payload]"/>
+    <property name="key" value="emp_details"/>
+    <property name="auxiliary;index" value="14"/>
+    <property name="auxiliary;wrapIn" value="14"/>
+</property-collection>
+                            </properties>
+                        </pattern>
+                        <splitter index="15" name="Scatter-Gather" type="http://www.mulesoft.org/schema/mule/core/scatter-gather" entity-id="Scatter-Gather#1">
+                            <graphicalData x="738" y="168" width="421" height="283"/>
+                            <properties>
+<property name=";INDEX" value="15"/>
+<property name="auxiliary;index" value="15"/>
+<property name="timeout"/>
+                            </properties>
+                            <pattern name="Scatter-Gather" type="http://www.mulesoft.org/schema/mule/core/scatter-gather" entity-id="Scatter-Gather#2">
+<properties>
+    <property name=";INDEX" value="15"/>
+    <property name="auxiliary;index" value="15"/>
+    <property name="timeout"/>
+</properties>
+                            </pattern>
+                            <compartment entity-id="compartment#3">
+<lane hadOnlyOneElement="false" index="16" isChoiceOtherwiseLane="false" entity-id="2ef4a89b-4078-4ab6-ab41-7daafe5860a4">
+    <pattern name="Get Contact Information" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#2">
+        <graphicalData x="0" y="0" width="0" height="0"/>
+        <properties>
+            <property name="streaming"/>
+            <property name=""/>
+            <property name="fetchSize"/>
+            <property name="source"/>
+            <property name="transactionalAction"/>
+            <property name="target"/>
+            <property name="maxRows"/>
+            <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/select"/>
+            <property name="config-ref" value="MySQL-B"/>
+            <property name="auxiliary;index" value="17"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/db/dynamic-query;0">
+                <property name="text" value="SELECT * FROM contacts WHERE emp_id = '#[json:emp_id]';"/>
+                <property name="auxiliary;index" value="18"/>
+                <property name="auxiliary;wrapIn" value="18"/>
+            </property-collection>
+        </properties>
+    </pattern>
+    <pattern name="Object to JSON" type="http://www.mulesoft.org/schema/mule/json/object-to-json-transformer" entity-id="Object to JSON#1">
+        <graphicalData x="0" y="0" width="0" height="0"/>
+        <properties>
+            <property name="sourceClass"/>
+            <property name="returnClass"/>
+            <property name="ignoreBadInput"/>
+            <property name="encoding"/>
+            <property name="mapper-ref"/>
+            <property name="auxiliary;index" value="19"/>
+            <property name="mimeType"/>
+        </properties>
+    </pattern>
+</lane>
+<lane hadOnlyOneElement="false" index="20" isChoiceOtherwiseLane="false" entity-id="392d9609-75bc-4046-9fb1-c137bc9de2ed">
+    <pattern name="Get Job Information" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#3">
+        <graphicalData x="0" y="0" width="0" height="0"/>
+        <properties>
+            <property name="streaming"/>
+            <property name=""/>
+            <property name="fetchSize"/>
+            <property name="source"/>
+            <property name="transactionalAction"/>
+            <property name="target"/>
+            <property name="maxRows"/>
+            <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/select"/>
+            <property name="config-ref" value="MySQL-B"/>
+            <property name="auxiliary;index" value="21"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/db/dynamic-query;0">
+                <property name="text" value="SELECT * FROM jobs WHERE job_id = '#[json:job_id]';"/>
+                <property name="auxiliary;index" value="22"/>
+                <property name="auxiliary;wrapIn" value="22"/>
+            </property-collection>
+        </properties>
+    </pattern>
+    <pattern name="Object to JSON" type="http://www.mulesoft.org/schema/mule/json/object-to-json-transformer" entity-id="Object to JSON#2">
+        <graphicalData x="0" y="0" width="0" height="0"/>
+        <properties>
+            <property name="sourceClass"/>
+            <property name="returnClass"/>
+            <property name="ignoreBadInput"/>
+            <property name="encoding"/>
+            <property name="mapper-ref"/>
+            <property name="auxiliary;index" value="23"/>
+            <property name="mimeType"/>
+        </properties>
+    </pattern>
+</lane>
+<lane hadOnlyOneElement="true" index="0" isChoiceOtherwiseLane="false" entity-id="94f5cd74-9a37-4227-a8b8-a8f81035ca9b">
+    <pattern name="Set Payload" type="http://www.mulesoft.org/schema/mule/core/set-payload" entity-id="Set Payload#1">
+        <graphicalData x="0" y="0" width="0" height="0"/>
+        <properties>
+            <property name="value" value="#[sessionVars['emp_details']]"/>
+            <property name="auxiliary;index" value="24"/>
+        </properties>
+    </pattern>
+</lane>
+                            </compartment>
+                        </splitter>
+                        <unknown description="false" index="25" entity-id="unknown#1">
+                            <graphicalData x="1219" y="279" width="193" height="61"/>
+                            <content>&lt;combine-collections-transformer xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot;/&gt;</content>
+                        </unknown>
+                        <pattern name="Object to String" type="http://www.mulesoft.org/schema/mule/core/object-to-string-transformer" entity-id="eee8c35f-12e3-46c2-a400-6fff24a29dfe">
+                            <graphicalData x="1472" y="276" width="98" height="67"/>
+                            <properties/>
+                            <description></description>
+                        </pattern>
+                        <pattern name="Logger" type="http://www.mulesoft.org/schema/mule/core/logger" entity-id="403cad27-f530-485a-9791-d7015c49ce71">
+                            <graphicalData x="1630" y="276" width="68" height="67"/>
+                            <properties>
+<property name="message" value="RESULT: #[message.payload]"/>
+<property name="category" value=""/>
+<property name="level" value="INFO"/>
+<property name="updated"/>
+                            </properties>
+                            <description></description>
+                        </pattern>
+                    </lane>
+                </compartment>
+            </scope>
+            <properties>
+                <property name="auxiliary;index" value="9"/>
+            </properties>
+        </lane>
+        <lane xsi:type="nestedContainer" name="On Complete" type="http://www.mulesoft.org/schema/mule/batch/on-complete" hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="2af4aae6-baa4-44d2-88d4-105843cc4f41"/>
+        <containerBehavior>default</containerBehavior>
+    </flow>
+    <description></description>
+</mule-configuration>

@@ -4,7 +4,7 @@
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
-    <flow name="vm_load_formFlow1" doc:name="vm_load_formFlow1" doc:description="This flow parses the html file and set content type telling the flow that this is a HTML page">
+    <flow name="vm_load_html_form" doc:name="vm_load_html_form" doc:description="This flow parses the html file and set content type telling the flow that this is a HTML page">
         <vm:inbound-endpoint exchange-pattern="request-response" path="load_form" doc:name="Load Form" connector-ref="VM" doc:description="Inbound for HTML form parsing"/>
         <parse-template location="employee_form.html" doc:name="Load HTML form" doc:description="Parse HTML form  employee_form.html"/>
         <set-property propertyName="Content-Type" value="text/html" doc:name="Set Content Type" doc:description="Set Content type and return so the browser can interpret the payload as a Text/HTML"/>
