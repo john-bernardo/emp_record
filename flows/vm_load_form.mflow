@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="vm_load_form">
-    <flow SubFlow="false" name="vm_load_formFlow1" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="f78fb5a1-523a-4a0d-a367-6638e01ec69b">
+    <flow SubFlow="false" name="vm_load_html_form" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="f78fb5a1-523a-4a0d-a367-6638e01ec69b">
         <properties>
             <property name="initialState" value=""/>
             <property name="auxiliary;erased;initialState" value="true"/>
@@ -8,7 +8,7 @@
             <property name="tracking:enable-default-events" value="false"/>
             <property name="auxiliary;index" value="1"/>
             <property name="updated"/>
-            <property-collection name="@http://www.mulesoft.org/schema/mule/ee/tracking/transaction;995032873"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/ee/tracking/transaction;1390514716"/>
         </properties>
         <description>This flow parses the html file and set content type telling the flow that this is a HTML page</description>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#1">

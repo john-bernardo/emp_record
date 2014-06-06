@@ -44,7 +44,7 @@
             <property name="auxiliary;index" value="2"/>
         </properties>
     </global-element>
-    <flow SubFlow="false" name="vm_insert_employeeFlow1" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="7465867e-c48b-4d85-b9bf-cde6e4683cfe">
+    <flow SubFlow="false" name="vm_insert_employee_flow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="7465867e-c48b-4d85-b9bf-cde6e4683cfe">
         <properties>
             <property name="initialState" value=""/>
             <property name="auxiliary;erased;initialState" value="true"/>
@@ -52,7 +52,7 @@
             <property name="tracking:enable-default-events" value="false"/>
             <property name="auxiliary;index" value="3"/>
             <property name="updated"/>
-            <property-collection name="@http://www.mulesoft.org/schema/mule/ee/tracking/transaction;1770487221"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/ee/tracking/transaction;1547053713"/>
         </properties>
         <description>This flow contains the process of inserting employee details and contact information of the employee to 2 separate databases</description>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#1">

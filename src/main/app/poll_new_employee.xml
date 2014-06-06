@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
+    <data-mapper:config name="Map_To_JSON" transformationGraphPath="map_to_json.grf" doc:name="Map_To_JSON"/>
+    <batch:job name="poll_new_employeeBatch1">
+        <batch:threading-profile poolExhaustedAction="WAIT"/>
+        <batch:input>
+            <poll doc:name="Poll">
+                <fixed-frequency-scheduler frequency="60" timeUnit="SECONDS"/>
+                <watermark variable="last_emp_id" default-expression="0" selector="LAST" selector-expression="#[payload.emp_id]"/>
+                <db:select config-ref="MySQL-A" doc:name="Get new employees">
+                    <db:parameterized-query><![CDATA[SELECT * FROM employees WHERE emp_id > #[flowVars["last_emp_id"]];]]></db:parameterized-query>
+                </db:select>
+            </poll>
+        </batch:input>
+        <batch:process-records>
+            <batch:step name="Batch_Step">
+                <data-mapper:transform config-ref="Map_To_JSON" doc:name="Map To JSON"/>
+                <object-to-string-transformer doc:name="Object to String"/>
+                <message-properties-transformer overwrite="true" scope="session" doc:name="Set Employee information">
+                    <add-message-property key="emp_details" value="#[message.payload]"/>
+                </message-properties-transformer>
+                <scatter-gather doc:name="Scatter-Gather">
+                    <processor-chain>
+                        <db:select config-ref="MySQL-B" doc:name="Get Contact Information">
+                            <db:dynamic-query><![CDATA[SELECT * FROM contacts WHERE emp_id = '#[json:emp_id]';]]></db:dynamic-query>
+                        </db:select>
+                        <json:object-to-json-transformer doc:name="Object to JSON"/>
+                    </processor-chain>
+                    <processor-chain>
+                        <db:select config-ref="MySQL-B" doc:name="Get Job Information">
+                            <db:dynamic-query><![CDATA[SELECT * FROM jobs WHERE job_id = '#[json:job_id]';]]></db:dynamic-query>
+                        </db:select>
+                        <json:object-to-json-transformer doc:name="Object to JSON"/>
+                    </processor-chain>
+                    <set-payload value="#[sessionVars['emp_details']]" doc:name="Set Payload"/>
+                </scatter-gather>
+                <combine-collections-transformer></combine-collections-transformer>
+                <object-to-string-transformer doc:name="Object to String"/>
+                <logger message="RESULT: #[message.payload]" level="INFO" doc:name="Logger"/>
+            </batch:step>
+           
+        </batch:process-records>
+    </batch:job>
+</mule>
