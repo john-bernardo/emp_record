@@ -8,17 +8,17 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
-    <flow name="emp_recordFlow1" doc:name="emp_recordFlow1">
+    <flow name="emp_recordFlow1" doc:name="emp_recordFlow1" doc:description="This is the start of the New Employee process, this flow routes the POST and GET http request from the browser.">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8085" doc:name="New Employee Inbound" path="employee"/>
-        <choice doc:name="Choice">
+        <choice doc:name="Choice" doc:description="Choice router for HTTP request from New Employee process, there a 3 routes for this choice, one route identifies if the HTTP request is a GET method which will route the request to the Load Form VM, another route identifies if the HTTP Request is a POST method which means it can be a Form submit which will require processing of form data, which will route the Process Insert VM, another route is a Default which will route the request to a Set Payload which just tells the user that the HTTP method is not valid for this particular transaction.">
             <when expression="#[message.inboundProperties['http.method'] == 'GET']">
-                <vm:outbound-endpoint exchange-pattern="request-response" path="load_form" doc:name="Load Form"/>
+                <vm:outbound-endpoint exchange-pattern="request-response" path="load_form" doc:name="Load Form" doc:description="This connects the vm_load_form.mflow which contains flow for parsing the html form" connector-ref="VM"/>
             </when>
             <when expression="#[message.inboundProperties['http.method'] == 'POST']">
-                <vm:outbound-endpoint exchange-pattern="request-response" path="insert_employee" doc:name="Process Insert"/>
+                <vm:outbound-endpoint exchange-pattern="request-response" path="insert_employee" doc:name="Insert Employee" doc:description="This connects the emp_record.mflow to vm_insert_employee.mflow for processing and inserting the form data to the database" connector-ref="VM"/>
             </when>
             <otherwise>
-                <set-payload value="Invalid Method" doc:name="Invalid Method"/>
+                <set-payload value="Invalid Method" doc:name="Invalid Method" doc:description="Overrides the current payload and notifies the http request for this transaction is not valid"/>
             </otherwise>
         </choice>
     </flow>
