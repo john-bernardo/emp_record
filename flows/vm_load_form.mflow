@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="vm_load_form">
-    <flow SubFlow="false" name="vm_load_formFlow1" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="7abe3c1b-9260-4f28-87a6-49d297a04162">
-        <properties/>
-        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="27eb4054-c979-4d43-9483-8cac88a174a1">
+    <flow SubFlow="false" name="vm_load_formFlow1" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="f78fb5a1-523a-4a0d-a367-6638e01ec69b">
+        <properties>
+            <property name="initialState"/>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property name="auxiliary;index" value="1"/>
+        </properties>
+        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#1">
             <graphicalData x="0" y="0" width="0" height="0"/>
-            <endpoint direction="Inbound" name="Load Form" type="http://www.mulesoft.org/schema/mule/vm/endpoint" entity-id="fa1561a5-f03b-4072-b531-23f3a14f2218">
-                <graphicalData x="21" y="46" width="71" height="169"/>
+            <endpoint direction="Inbound" name="Load Form" type="http://www.mulesoft.org/schema/mule/vm/endpoint" entity-id="VM#1">
+                <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
                     <property name="auxiliary;erased;mimeType" value="true"/>
                     <property name="businessEventsLabel" value=""/>
@@ -20,30 +27,31 @@
                     <property name="path" value="load_form"/>
                     <property name="encoding" value=""/>
                     <property name="responseTransformer-refs" value=""/>
+                    <property name="auxiliary;index" value="2"/>
                     <property name="mimeType" value=""/>
                     <property name="responseTimeout" value=""/>
                     <property name="auxiliary;erased;responseTimeout" value="true"/>
-                    <property name="connector-ref" value=""/>
+                    <property name="connector-ref" value="VM"/>
                 </properties>
-                <description></description>
+                <description>Inbound for HTML form parsing</description>
             </endpoint>
-            <pattern name="Load HTML form" type="http://www.mulesoft.org/schema/mule/core/parse-template" entity-id="995c0f18-6e61-4043-9c82-b62c0610c0d2">
-                <graphicalData x="152" y="46" width="103" height="67"/>
+            <pattern name="Load HTML form" type="http://www.mulesoft.org/schema/mule/core/parse-template" entity-id="Parse Template#1">
+                <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
                     <property name="location" value="employee_form.html"/>
-                    <property name="updated"/>
+                    <property name="auxiliary;index" value="3"/>
                 </properties>
-                <description></description>
+                <description>Parse HTML form  employee_form.html</description>
             </pattern>
-            <pattern name="Set Content Type" type="http://www.mulesoft.org/schema/mule/core/properties-transformer" entity-id="93a91212-835a-47db-abcf-21d5456d54be">
+            <pattern name="Set Content Type" type="http://www.mulesoft.org/schema/mule/core/properties-transformer" entity-id="Property#1">
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
                     <property name="propertyName" value="Content-Type"/>
-                    <property name="updated"/>
-                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/core/set-property"/>
                     <property name="value" value="text/html"/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/core/set-property"/>
+                    <property name="auxiliary;index" value="4"/>
                 </properties>
-                <description></description>
+                <description>Set Content type and return so the browser can interpret the payload as a Text/HTML</description>
             </pattern>
         </lane>
     </flow>
